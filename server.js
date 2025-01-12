@@ -24,7 +24,9 @@ app.get('/api/hello', function (req, res) {
   res.json({ greeting: 'hello API' });
 });
 
+// API endpoint for /api/whoami
 app.get('/api/whoami', (req, res) => {
+    // Obtener la dirección IP
     let ipaddress = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
 
     // Convertir IPv6 mapeado a IPv4 si es necesario
@@ -32,9 +34,13 @@ app.get('/api/whoami', (req, res) => {
         ipaddress = ipaddress.split('::ffff:')[1];
     }
 
-    const language = req.headers['accept-language'] || 'unknown'; // Idioma preferido del cliente
-    const software = req.headers['user-agent'] || 'unknown';     // Software del cliente
+    // Obtener el idioma preferido (solo el primero)
+    const language = (req.headers['accept-language'] || 'unknown').split(',')[0];
 
+    // Obtener la información del software del cliente
+    const software = req.headers['user-agent'] || 'unknown';
+
+    // Responder con el JSON requerido
     res.json({
         ipaddress: ipaddress,
         language: language,
