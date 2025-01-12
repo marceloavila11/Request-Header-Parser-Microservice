@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request Header Parser Microservice</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            text-align: center;
+            background: white;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            width: 90%;
+            max-width: 600px;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        pre {
+            text-align: left;
+            background: #eee;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        .link {
+            text-decoration: none;
+            color: #3498db;
+            font-size: 14px;
+        }
+        .link:hover {
+            text-decoration: underline;
+        }
+        footer {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>API Project: Request Header Parser Microservice</h1>
+        <p>Example Usage:</p>
+        <p><a class="link" href="/api/whoami" target="_blank">[base url]/api/whoami</a></p>
+        <p>Example Output:</p>
+        <pre id="output">Loading...</pre>
+        <footer>
+            by <a class="link" href="https://www.linkedin.com/in/marcelo-avila-405789331/" target="_blank">Marcelo Avila</a>
+        </footer>
+    </div>
+    <script>
+        // Fetch data from the API and display it in the "Example Output" section
+        fetch('/api/whoami')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('output').textContent = JSON.stringify(data, null, 2);
+            })
+            .catch(err => {
+                document.getElementById('output').textContent = 'Error loading data';
+            });
+    </script>
+</body>
+</html>

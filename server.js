@@ -1,9 +1,10 @@
 const express = require('express');
+const path = require('path');
 const app = express();
 
 const PORT = process.env.PORT || 3000;
 
-// Ruta principal para la API
+// Ruta para la API
 app.get('/api/whoami', (req, res) => {
     const ipaddress = req.ip || req.connection.remoteAddress;
     const language = req.headers['accept-language'];
@@ -16,7 +17,12 @@ app.get('/api/whoami', (req, res) => {
     });
 });
 
+// Ruta para servir el archivo HTML
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
+
 // Inicia el servidor
 app.listen(PORT, () => {
-    console.log(`Servidor corriendo en el puerto ${PORT}`);
+    console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
