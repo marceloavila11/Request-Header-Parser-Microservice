@@ -6,13 +6,13 @@ const PORT = process.env.PORT || 3000;
 // Endpoint API /whoami
 app.get('/api/whoami', (req, res) => {
   // Obtener la dirección IP del cliente
-  const ipAddress = req.headers['x-forwarded-for']?.split(',')[0] || req.socket.remoteAddress;
+  const ipAddress = req.headers['x-forwarded-for']?.split(',')[0] || req.socket.remoteAddress.replace('::ffff:', '');
 
   // Obtener el idioma preferido del cliente
-  const language = req.headers['accept-language'];
+  const language = req.headers['accept-language'] || 'unknown';
 
   // Obtener la información del software del cliente
-  const software = req.headers['user-agent'];
+  const software = req.headers['user-agent'] || 'unknown';
 
   // Responder con un JSON con los valores requeridos
   res.json({
