@@ -26,27 +26,28 @@ app.get('/api/hello', function (req, res) {
 
 // API endpoint for /api/whoami
 app.get('/api/whoami', (req, res) => {
-    // Obtener la dirección IP
+    // Obtener dirección IP
     let ipaddress = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
 
-    // Convertir IPv6 mapeado a IPv4 si es necesario
+    // Convertir IPv6 mapeado a IPv4
     if (ipaddress.startsWith('::ffff:')) {
         ipaddress = ipaddress.split('::ffff:')[1];
     }
 
-    // Obtener el idioma preferido (solo el primero)
+    // Obtener solo el primer idioma
     const language = (req.headers['accept-language'] || 'unknown').split(',')[0];
 
-    // Obtener la información del software del cliente
+    // Obtener información del software
     const software = req.headers['user-agent'] || 'unknown';
 
-    // Responder con el JSON requerido
+    // Respuesta en formato JSON
     res.json({
-        ipaddress: ipaddress,
-        language: language,
-        software: software,
+        ipaddress: ipaddress,   // Ejemplo: 192.168.171.139
+        language: language,     // Ejemplo: es-419
+        software: software      // Ejemplo: Mozilla/5.0...
     });
 });
+
 
 // listen for requests :)
 var listener = app.listen(process.env.PORT || 3000, function () {
