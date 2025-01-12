@@ -1,28 +1,28 @@
 const express = require('express');
-const path = require('path');
 const app = express();
 
 const PORT = process.env.PORT || 3000;
 
-// Ruta para la API
+// Endpoint API /whoami
 app.get('/api/whoami', (req, res) => {
-    const ipaddress = req.ip || req.connection.remoteAddress;
-    const language = req.headers['accept-language'];
-    const software = req.headers['user-agent'];
+  // Obtener la dirección IP del cliente
+  const ipAddress = req.headers['x-forwarded-for']?.split(',')[0] || req.socket.remoteAddress;
 
-    res.json({
-        ipaddress: ipaddress,
-        language: language,
-        software: software,
-    });
+  // Obtener el idioma preferido del cliente
+  const language = req.headers['accept-language'];
+
+  // Obtener la información del software del cliente
+  const software = req.headers['user-agent'];
+
+  // Responder con un JSON con los valores requeridos
+  res.json({
+    ipaddress: ipAddress,
+    language: language,
+    software: software,
+  });
 });
 
-// Ruta para servir el archivo HTML
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
-});
-
-// Inicia el servidor
+// Escuchar en el puerto configurado
 app.listen(PORT, () => {
-    console.log(`Servidor corriendo en http://localhost:${PORT}`);
+  console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
