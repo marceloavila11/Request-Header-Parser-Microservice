@@ -1,26 +1,25 @@
 const express = require('express');
+const cors = require('cors');
+
 const app = express();
+app.use(cors()); // Habilitar CORS
 
-// Middleware para servir la carpeta pública (si se desea agregar una página web)
-app.use(express.static('public'));
-
-// Ruta para el endpoint /api/whoami
 app.get('/api/whoami', (req, res) => {
-    // Obtener datos del cliente
-    const ipaddress = req.ip || req.connection.remoteAddress;
-    const language = req.headers['accept-language'];
-    const software = req.headers['user-agent'];
+  // Obtener la dirección IP, el idioma y la información del software
+  const ipaddress = req.headers['x-forwarded-for'] || req.ip;
+  const language = req.headers['accept-language'] || 'unknown';
+  const software = req.headers['user-agent'] || 'unknown';
 
-    // Responder con el JSON requerido
-    res.json({
-        ipaddress,
-        language,
-        software,
-    });
+  // Enviar respuesta en formato JSON
+  res.json({
+    ipaddress,
+    language,
+    software,
+  });
 });
 
-// Configurar el puerto
+// Puerto de escucha
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
 });
